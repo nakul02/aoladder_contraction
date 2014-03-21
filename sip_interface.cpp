@@ -5,38 +5,16 @@
  * without requiring the caller to include interpreter.h or deal with namespaces
  * or classes.
  *
- *  Created on: Aug 10, 2013
- *      Author: basbas
  */
 
 #include "sip_interface.h"
-#include "interpreter.h"
-#include "index_table.h"
+#include "constants.h"
+#include <map>
 #include <stdexcept>
 
 #ifdef __cplusplus
 extern "C" {
 #endif
-
-
-/**
- * Gets a currently active scalar value
- * @param name
- * @return
- */
-double scalar_value(const char * name) {
-	return sip::Interpreter::global_interpreter->scalar_value(std::string(name));
-}
-
-/**
- * Sets the value of a currently active scalar
- * @param name
- * @param value
- */
-void set_scalar_value(const char * name, double value) {
-	sip::Interpreter::global_interpreter->set_scalar_value(std::string(name),
-			value);
-}
 
 /**
  * Get a double constant from initialization data
@@ -44,8 +22,7 @@ void set_scalar_value(const char * name, double value) {
  * @return Value of the constant
  */
 double scalar_constant(const char*cname) {
-	return sip::Interpreter::global_interpreter->sip_tables_.setup_reader().predefined_scalar_map_.at(
-			std::string(cname));
+	return predef_scalar_data.at(std::string(name));
 }
 
 /**
@@ -54,8 +31,7 @@ double scalar_constant(const char*cname) {
  * @return Value of the constant
  */
 int int_constant(const char*cname) {
-	return sip::Interpreter::global_interpreter->sip_tables_.setup_reader().predefined_int_map_.at(
-			std::string(cname));
+    return predef_int_data.at(std::string(name));
 }
 
 /**
@@ -68,20 +44,11 @@ int int_constant(const char*cname) {
 
 void predefined_scalar_array(const char*aname, int& num_dims, int **dims,
 		double **values) {
-	try {
-		std::pair<int, std::pair<int *, double *> > a =
-				sip::Interpreter::global_interpreter->sip_tables_.setup_reader().predef_arr_.at(
-						std::string(aname));
-		num_dims = a.first;
-		*dims = a.second.first;
-		*values = a.second.second;
+		ScalarArrData a = predef_array_map.at(std::string(aname));
+		num_dims = a.rank;
+		*dims = a.dims
+		*values = a.data;
 		return;
-	} catch (const std::out_of_range& oor) {
-		sip::check(false,
-				"predefined array " + std::string(aname)
-						+ " not in predefined array map\n");
-		return;
-	}
 }
 
 void scratch_array(int& num_elements, double **array){
@@ -120,31 +87,12 @@ void delete_scratch_array(double **array){
  */
 void predefined_int_array(const char*aname, int& num_dims, int **dims,
 		int **values) {
-	try {
-		std::pair<int, std::pair<int *, int *> > &a =
-				sip::Interpreter::global_interpreter->sip_tables_.setup_reader().predef_int_arr_.at(
-						std::string(aname));
-		//std::cout << "aname= " << aname << ", a=" << a.first << std::endl;
-		num_dims = a.first;
-		*dims = a.second.first;
-		*values = a.second.second;
-        /*
-		std::cout << num_dims << "," << *dims << "," << *values << std::endl;
-        std::cout<<"Dims :"<<std::endl;
-        for(int i=0; i<num_dims; i++){
-            std::cout<<(*dims)[i]<< " ";
-        }
-        std::cout<<std::endl<<"Values :"<<std::endl;
-        for (int i=0; i< 10; i++){
-            std::cout<<(*values)[i]<<" ";
-        }
-        */
+		IntArrData a = predef_int_array_map.at(std::string(aname));
+		num_dims = a.rank;
+		*dims = a.dims
+		*values = a.data;
 		return;
-	} catch (const std::out_of_range& oor) {
-		sip::check(false,
-				"predefined array " + std::string(aname)
-						+ " not in predefined array map\n");
-		return;
+
 	}
 }
 
@@ -162,19 +110,5 @@ int current_line() {
 #ifdef __cplusplus
 }
 #endif
-
-namespace sip {
-std::string index_name_value(int slot) {
-	return sip::Interpreter::global_interpreter->index_value_to_string(slot);
-}
-std::string array_name_value(int array_table_slot) {
-	return sip::Interpreter::global_interpreter->array_name(array_table_slot);
-}
-int get_line_number() {
-	if (sip::Interpreter::global_interpreter != NULL) {
-		return sip::Interpreter::global_interpreter->line_number();
-	} else
-		return 0;
-}
 
 }
