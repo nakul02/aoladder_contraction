@@ -19,4 +19,4 @@ lookup_shell.o: lookup_shell.f
 	gfortran $(F77FLAGS) -c lookup_shell.f
 
 clean:
-	rm sip_interface.o aoladder_contraction.o lookup_shell.o test_bed
+	-rm -f main.o sip_interface.o aoladder_contraction.o lookup_shell.o test_bed
