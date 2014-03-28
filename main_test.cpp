@@ -17,14 +17,24 @@ extern "C" {
             int * extents_2, double * data_2, 
             int& array_slot_3, int& rank_3, int * index_values_3, int& size_3, 
             int * extents_3, double * data_3, int& ierr);
+            
+     void aoladder_contraction_cpp(
+            int& array_slot_1, int& rank_1, int * index_values_1, int& size_1, 
+            int * extents_1, double * data_1, 
+            int& array_slot_2, int& rank_2, int * index_values_2, int& size_2, 
+            int * extents_2, double * data_2, 
+            int& array_slot_3, int& rank_3, int * index_values_3, int& size_3, 
+            int * extents_3, double * data_3, int& ierr);       
 }
 
-const double THRESHOLD = 1e-8;
+const double THRESHOLD = 1e-10;
+
 
 TEST(AOLADDER,test1){
     
     int ierr;
-
+    
+    
     const int a0 = 36;
     const int a1 = 36;
     const int a2 = 36;
@@ -39,6 +49,12 @@ TEST(AOLADDER,test1){
     const int c1 = 36;
     const int c2 = 36;
     const int c3 = 36;
+    
+    // A way to get huge arrays to be in global data
+    static double data_0[a3][a2][a1][a0];
+    static double data_1[b3][b2][b1][b0];
+    static double data_2_ref[c3][c2][c1][c0];
+    static double data_2[c3][c2][c1][c0];
     
     int dummy_slot = -1;
     int dummy_index_values[4] = {-1, -1, -1, -1};
@@ -55,11 +71,12 @@ TEST(AOLADDER,test1){
     int size_2 = c0 * c1 * c2 * c3;
     int extents_2[] = {c0, c1, c2, c3};
     
-    double data_0[a3][a2][a1][a0];
-    double data_1[b3][b2][b1][b0];
-    double data_2[c3][c2][c1][c0];
     
-    int ao_seg_ranges[1] = {36};
+    //double data_0 = new double[size_0];
+    //double data_1 = new double[size_1];
+    //double data_2 = new double[size_2];
+    
+    int ao_seg_ranges[1] = {a0};
     int ao_seg_ranges_dims [1]= {1};
     int end_nfps[6] = {4, 13, 18, 22, 31, 36};
     int end_nfps_dims [1]= {6};
@@ -92,6 +109,7 @@ TEST(AOLADDER,test1){
                     for(int l=end_nfps[b]; l<end_nfps[b+1] && l<ao_seg_ranges[0]; l++){
                         data_0[l][k][j][i] = distribution(generator);
                         data_1[l][k][j][i] = distribution(generator);
+                        data_2_ref[l][k][j][i] = 0.0;
                         data_2[l][k][j][i] = 0.0;
                     }
                 }
@@ -104,8 +122,17 @@ TEST(AOLADDER,test1){
             dummy_slot, rank_1, &dummy_index_values[0], 
             size_1, &extents_1[0], &data_1[0][0][0][0],
             dummy_slot, rank_2, &dummy_index_values[0], 
-            size_2, &extents_2[0], &data_2[0][0][0][0],
+            size_2, &extents_2[0], &data_2_ref[0][0][0][0],
             ierr);
+            
+    aoladder_contraction(dummy_slot, rank_0, &dummy_index_values[0], 
+        size_0, &extents_0[0], &data_0[0][0][0][0],
+        dummy_slot, rank_1, &dummy_index_values[0], 
+        size_1, &extents_1[0], &data_1[0][0][0][0],
+        dummy_slot, rank_2, &dummy_index_values[0], 
+        size_2, &extents_2[0], &data_2[0][0][0][0],
+        ierr);        
+            
             
             
     for (int i=0; i<c0; i++){
@@ -117,6 +144,7 @@ TEST(AOLADDER,test1){
                     //if (absdiff > THRESHOLD)
                     //    std::cerr << "Error !, diff at location :["
                     //        <<i<<","<<j<<","<<k<<","<<l<<"]"<<std::endl;
+                    ASSERT_NEAR(data_2_ref[i][j][k][l], data_2[i][j][k][l], THRESHOLD);
                 }
             }
         }

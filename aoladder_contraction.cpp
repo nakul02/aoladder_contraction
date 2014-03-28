@@ -13,9 +13,9 @@ extern "C" {
 
 void compute_aoladder(int a1, int a2, int b1, int b2, int c1, int c2, int d1,
 		int d2, double* integrals, int i1, int i2, int j1, int j2,
-		double* t2old, int ii1, int ii2, int jj1, int jj2, double* t2new,
-		double* coords, double* tcoords, double* coeffs, int* ixpcoef,
-		double* alphas, int* ixalpha, int* ccbeg, int* ccend,double* ans) {
+		double* t2old, int ii1, int ii2, int jj1, int jj2, double* t2new){
+//		double* coords, double* tcoords, double* coeffs, int* ixpcoef,
+//		double* alphas, int* ixalpha, int* ccbeg, int* ccend,double* ans) {
 	//---------------------------------------------------------------------------
 	// The block of integrals (a1:a2,b1:b2,c1:c2,d1:d2) is computed for the
 	// following 'types' of integrals based on atomi//labels.
@@ -45,10 +45,10 @@ void compute_aoladder(int a1, int a2, int b1, int b2, int c1, int c2, int d1,
 
 	int imin, zmin, iblk, zblk;
 
-	double x1, y1, z1;
-	double x2, y2, z2;
-	double x3, y3, z3;
-	double x4, y4, z4;
+//	double x1, y1, z1;
+//	double x2, y2, z2;
+//	double x3, y3, z3;
+//	double x4, y4, z4;
 
 	//double precision coords(3,*), coeffs(*), alphas(*)
 	//double precision tcoords(3,*)
@@ -63,27 +63,27 @@ void compute_aoladder(int a1, int a2, int b1, int b2, int c1, int c2, int d1,
 	// integer ccbeg(*), ccend(*)
 	// integer ixalpha(*), ixpcoef(*)
 
-	const int max_dim_coeff = 5000;
-	int ccbeg_pack[max_dim_coeff], ccend_pack[max_dim_coeff];
-	int ccbeg_pack64[max_dim_coeff], ccend_pack64[max_dim_coeff]; //ToDo integer*8
-	double alpha_pack[max_dim_coeff], pcoeff_pack[max_dim_coeff];
-	int arg64[25]; //ToDo integer *8
+//	const int max_dim_coeff = 5000;
+//	int ccbeg_pack[max_dim_coeff], ccend_pack[max_dim_coeff];
+//	int ccbeg_pack64[max_dim_coeff], ccend_pack64[max_dim_coeff]; //ToDo integer*8
+//	double alpha_pack[max_dim_coeff], pcoeff_pack[max_dim_coeff];
+//	int arg64[25]; //ToDo integer *8
 	// VFL TO BE COMPLETED common / Imax_com / sz_max(nshells, nshells), delta
-	double sz_max, delta;
-	double itol, bmax, dtemp, emax;
+//	double sz_max, delta;
+//	double itol, bmax, dtemp, emax;
 
 	// common / d2int_com / jatom, jx, jcenter
 	// integer jatom, jx, jcenter
 	int one;
 
-	int nshells, nalpha_occupied, nbeta_occupied;
-	int nalpha_virtual, nbeta_virtual;
-	int intSpherical;
+//	int nshells, nalpha_occupied, nbeta_occupied;
+//	int nalpha_virtual, nbeta_virtual;
+//	int intSpherical;
 
 	//----------------------------------------------------------------------
 
 	// END_NFPS
-	int* nalpha;
+//	int* nalpha;
 	int* end_nfps;
 	//----------------------------------------------------------------------
 
@@ -96,22 +96,22 @@ void compute_aoladder(int a1, int a2, int b1, int b2, int c1, int c2, int d1,
 
 	// ----------------------------------------------------------------------
 	// NPFPS
-	int* npfps;
+//	int* npfps;
 	// ----------------------------------------------------------------------
 
 	// ----------------------------------------------------------------------
 	// NPFPS
-	int* index_cc;
+//	int* index_cc;
 	// ----------------------------------------------------------------------
 
 	// ----------------------------------------------------------------------
 	// INDX_C//
-	int* indx_cc;
+//	int* indx_cc;
 	// ----------------------------------------------------------------------
 
 	// ----------------------------------------------------------------------
 	// IVANGMOM
-	int* ivangmom;
+//	int* ivangmom;
 	// ----------------------------------------------------------------------
 
 	int i, sum;
@@ -131,28 +131,28 @@ void compute_aoladder(int a1, int a2, int b1, int b2, int c1, int c2, int d1,
 
 	// ----------------------------------------------------------------------
 	//  NCFPS
-	predefined_int_array("ncfps", one, &ishells, &ncfps);
+//	predefined_int_array("ncfps", one, &ishells, &ncfps);
 	//   write(6,*) ' NCFPS', ishells(1), (ncfps(i), i=1,
 	//    *                                           ishells(1))
 	// ----------------------------------------------------------------------
 
 	// ----------------------------------------------------------------------
 	//  NPFPS
-	predefined_int_array("npfps", one, &ishells, &npfps);
+//	predefined_int_array("npfps", one, &ishells, &npfps);
 	//     write(6,*) ' NCFPS', ishells(1), (npfps(i), i=1,
 	//    *                                           ishells(1))
 	// ----------------------------------------------------------------------
 
 	// ----------------------------------------------------------------------
 	//  INDX_CC
-	predefined_int_array("indx_cc", one, &ishells, &indx_cc);
+//	predefined_int_array("indx_cc", one, &ishells, &indx_cc);
 	//     write(6,*) ' INDX_CC', ishells(1), (indx_cc(i), i=1,
 	//    *                                           ishells(1))
 	// ----------------------------------------------------------------------
 
 	// ----------------------------------------------------------------------
 	//  IVANGMOMO
-	predefined_int_array("ivangmom", one, &ishells, &ivangmom);
+//	predefined_int_array("ivangmom", one, &ishells, &ivangmom);
 	//     write(6,*) ' IVANGMOMOM', ishells(1), (ivangmom(i), i=1,
 	//    *                                           ishells(1))
 	// ----------------------------------------------------------------------
@@ -167,7 +167,7 @@ void compute_aoladder(int a1, int a2, int b1, int b2, int c1, int c2, int d1,
 
 // Skip screening for now
 	//call set_itol(delta,itol)
-	itol = -1000;
+//	itol = -1000;
 
 	//-----------------------------------------------------------------------
 	//   Find the shell blocks for which we shall loop through.
@@ -355,7 +355,7 @@ void compute_aoladder(int a1, int a2, int b1, int b2, int c1, int c2, int d1,
 		}
 
 	}
-	printf("\n%f",ans[255]);
+	//printf("\n%f",ans[255]);
 	//exit(0);
 
 }
@@ -365,34 +365,35 @@ void compute_aoladder(int a1, int a2, int b1, int b2, int c1, int c2, int d1,
  *    second argument array --> 'old' amplitude block
  *    third argument array --> 'new' amplitude block
  */
-void aoladder_contraction(int& array_slot_0, int& rank_0, int * index_values_0,
+void aoladder_contraction_cpp(int& array_slot_0, int& rank_0, int * index_values_0,
 		int& size_0, int * extents_0, double * data_0, int& array_slot_1,
 		int& rank_1, int * index_values_1, int& size_1, int * extents_1,
 		double * data_1, int& array_slot_2, int& rank_2, int * index_values_2,
-		int& size_2, int * extents_2, double * data_2, int& ierr,double* ans) {
+		int& size_2, int * extents_2, double * data_2, int& ierr) {
+		//,double* ans) {
 
 	//one dimensional array of atomi//coordinates
-	int* pdim_coords;
-	double* pcoords;
+//	int* pdim_coords;
+//	double* pcoords;
 
 	//two dimensional array mapping atomi//coordinates to shells
-	int* pdim_Tcoords;
-	double* pTcoords;
+//	int* pdim_Tcoords;
+//	double* pTcoords;
 
 	//one dimensional arrays containg ccbeg and ccend
-	int* picc;
-	int* pccbeg;
-	int* pccend;
+//	int* picc;
+//	int* pccbeg;
+//	int* pccend;
 
 	//one dimensional array containg alphas(exponents)
-	int* pntot_alpha;
-	int* pixalphas;
-	double* palphas;
+//	int* pntot_alpha;
+//	int* pixalphas;
+//	double* palphas;
 
 	//one dimensional array containing coefficients
-	int* pntot_pcoeff;
-	int* pixpcoeffs;
-	double* ppcoeffs;
+//	int* pntot_pcoeff;
+//	int* pixpcoeffs;
+//	double* ppcoeffs;
 
 	/*integer scratch array. HARD coded size should be changed
 	 integer(C_INT) iscr(5000000)
@@ -401,8 +402,8 @@ void aoladder_contraction(int& array_slot_0, int& rank_0, int * index_values_0,
 
 	//double* scr;
 	//int* iscr;
-	double* cscr;
-	double* ciscr;
+//	double* cscr;
+//	double* ciscr;
 
 	//offsets of atomi//indeces
 	int offset_1, offset_2, offset_3, offset_4;
@@ -431,28 +432,28 @@ void aoladder_contraction(int& array_slot_0, int& rank_0, int * index_values_0,
 
 	// ----------------------------------------------------------------------
 	//  CC_BEG
-	predefined_int_array("ccbeg", one, &picc, &pccbeg);
+//	predefined_int_array("ccbeg", one, &picc, &pccbeg);
 	//     write(6,*) ' CC_BEG', picc(1), (pccbeg(i), i=1,
 	//    *                                           picc(1))
 	// ----------------------------------------------------------------------
 
 	// ----------------------------------------------------------------------
 	//  CC_END
-	predefined_int_array("ccend", one, &picc, &pccend);
+//	predefined_int_array("ccend", one, &picc, &pccend);
 	//    write(6,*) ' CC_END', picc(1), (pccend(i), i=1,
 	//   *                                           picc(1))
 	//----------------------------------------------------------------------
 
 	//----------------------------------------------------------------------
 	// IXALPHAS(exponents)
-	predefined_int_array("ixalphas", one, &pntot_alpha, &pixalphas);
+//	predefined_int_array("ixalphas", one, &pntot_alpha, &pixalphas);
 	//    write(6,*) ' IXALPHAS', pntot_alpha(1), (pixalphas(i), i=1,
 	//   *                                         pntot_alpha(1))
 	//----------------------------------------------------------------------
 
 	//----------------------------------------------------------------------
 	// IXCOEFFICIENTS
-	predefined_int_array("ixpcoeffs", one, &pntot_pcoeff, &pixpcoeffs);
+//	predefined_int_array("ixpcoeffs", one, &pntot_pcoeff, &pixpcoeffs);
 
 	//    write(6,*) ' IXPCOEFFS', pntot_pcoeff(1), (pixpcoeffs(i), i=1,
 	//   *                                         pntot_pcoeff(1))
@@ -460,28 +461,28 @@ void aoladder_contraction(int& array_slot_0, int& rank_0, int * index_values_0,
 
 	//----------------------------------------------------------------------
 	// ALPHAS(exponents)
-	predefined_scalar_array("alphas", one, &pntot_alpha, &palphas);
+//	predefined_scalar_array("alphas", one, &pntot_alpha, &palphas);
 	//    write(6,*) ' ALPHAS', pntot_alpha(1) , (palphas(i), i=1,
 	//   *                pntot_alpha(1))
 	//----------------------------------------------------------------------
 
 	//----------------------------------------------------------------------
 	// COEFFICIENTS
-	predefined_scalar_array("pcoeffs", one, &pntot_pcoeff, &ppcoeffs);
+//	predefined_scalar_array("pcoeffs", one, &pntot_pcoeff, &ppcoeffs);
 	//    write(6,*) ' PCOEFFS', pntot_pcoeff(1) , (ppcoeffs(i), i=1,
 	//   *                pntot_pcoeff(1))
 	//----------------------------------------------------------------------
 
 	//----------------------------------------------------------------------
 	// ATOMI//COORDINATES
-	predefined_scalar_array("coords", two, &pdim_coords, &pcoords);
+//	predefined_scalar_array("coords", two, &pdim_coords, &pcoords);
 	//    write(6,*) ' COORDS',  (pcoords(1,i), i=1, pdim_coords(2),
 	//   *                pntot_pcoeff(1))
 	//----------------------------------------------------------------------
 
 	//----------------------------------------------------------------------
 	// ATOMI//COORDINATES MAPPED TO SHELLS
-	predefined_scalar_array("tcoords", two, &pdim_Tcoords, &pTcoords);
+//	predefined_scalar_array("tcoords", two, &pdim_Tcoords, &pTcoords);
 	//----------------------------------------------------------------------
 
 	// ----------------------------------------------------------------------
@@ -493,7 +494,7 @@ void aoladder_contraction(int& array_slot_0, int& rank_0, int * index_values_0,
 
 	// ----------------------------------------------------------------------
 	//  END_NFPS
-	predefined_int_array("end_nfps", one, &nalpha, &end_nfps);
+//	predefined_int_array("end_nfps", one, &nalpha, &end_nfps);
 
 	//     write(6,*) ' END_NFPS', nalpha(1), (end_nfps(i), i=1,
 	//    *                                           nalpha(1))
@@ -505,11 +506,11 @@ void aoladder_contraction(int& array_slot_0, int& rank_0, int * index_values_0,
 	//ToDo after clarification of imax,zmax in imemory.h
 	// nscr  = zmax; // 5000000
 	//niscr = imax; // 5000000
-	nscr = 5000000;
-	niscr = 5000000;
+//	nscr = 5000000;
+//	niscr = 5000000;
 
-	cscr = (double*) calloc(nscr, sizeof(double));
-	ciscr = (double*) calloc(niscr, sizeof(double));
+//	cscr = (double*) calloc(nscr, sizeof(double));
+//	ciscr = (double*) calloc(niscr, sizeof(double));
 
 	// Set offsets for the integral array. These also set the offsets for the
 	// ao indices of the amplitude arrays.
@@ -538,16 +539,16 @@ void aoladder_contraction(int& array_slot_0, int& rank_0, int * index_values_0,
 			extents_1[0], extents_1[1], extents_1[2], extents_1[3],
 			data_1, //old amplitudes data_1
 			extents_2[0], extents_2[1], extents_2[2], extents_2[3],
-			data_2, //new amplitudes data_2
+			data_2) //new amplitudes data_2
 
-			pcoords, pTcoords, ppcoeffs, pixpcoeffs, palphas, pixalphas, pccbeg,
-			pccend,ans);
+//			pcoords, pTcoords, ppcoeffs, pixpcoeffs, palphas, pixalphas, pccbeg,
+//			pccend,ans);
 
 
 	// ----------------------------------------------------------------------
 	//  Remove scratch space
-	free(cscr);
-	free(ciscr);
+//	free(cscr);
+//	free(ciscr);
 
 	//Comments from line 243 to 263 missing
 }
