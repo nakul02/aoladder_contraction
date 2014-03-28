@@ -12,7 +12,7 @@ Please download the Google Tests v1.7 (http://googletest.googlecode.com/files/gt
 
 Unzip it into the root directory of this project.
 Cd into the resulting gtest-1.7.0 folder.
-Configure it as: ```--configure --without-pthread```
+Configure it as: ```./configure --without-pthread```
 And ```make``` it.
 
 Then ```make``` the aoladder_contraction project.

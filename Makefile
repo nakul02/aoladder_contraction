@@ -3,7 +3,7 @@ CXXFLAGS=-O0 -g -std=c++11
 FCFLAGS=-O0 -g
 F77FLAGS=-O0 -g
 CPPFLAGS="-Igtest-1.7.0/include"
-LDFLAGS= -lgfortran -lm -Lgtest-1.7.0/lib/.libs/ -lgtest -pthread
+LDFLAGS= -lgfortran -lm -Lgtest-1.7.0/lib/.libs/ -lgtest
 
 all: main_test.o sip_interface_test.o aoladder_contraction.o lookup_shell.o constants_data_types.o aoladder_contraction_cpp.o
 	g++ $(CXXFLAGS) main_test.o sip_interface_test.o aoladder_contraction.o aoladder_contraction_cpp.o constants_data_types.o lookup_shell.o -o test_bed $(LDFLAGS)
