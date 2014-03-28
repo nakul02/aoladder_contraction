@@ -1,22 +1,27 @@
 CFLAGS=-O0 -g
-CXXFLAGS=-O0 -g
+CXXFLAGS=-O0 -g -std=c++11
 FCFLAGS=-O0 -g
 F77FLAGS=-O0 -g
+CPPFLAGS="-Igtest-1.7.0/include"
+LDFLAGS= -lgfortran -lm -Lgtest-1.7.0/lib/.libs/ -lgtest -pthread
 
-all: main.o sip_interface.o aoladder_contraction.o lookup_shell.o
-	g++ $(CXXFLAGS) main.o sip_interface.o aoladder_contraction.o lookup_shell.o -lgfortran -lm -o test_bed
+all: main_test.o sip_interface_test.o aoladder_contraction.o lookup_shell.o constants_data_types.o
+	g++ $(CXXFLAGS) main_test.o sip_interface_test.o aoladder_contraction.o constants_data_types.o lookup_shell.o -o test_bed $(LDFLAGS)
 
-main.o: main.cpp
-	g++ $(CXXFLAGS) -c main.cpp 
+main_test.o: main_test.cpp
+	g++ $(CXXFLAGS) $(CPPFLAGS) -c main_test.cpp  
 
-sip_interface.o: sip_interface.cpp
-	g++ $(CXXFLAGS) -c sip_interface.cpp
+sip_interface_test.o: sip_interface_test.cpp
+	g++ $(CXXFLAGS) $(CPPFLAGS) -c sip_interface_test.cpp
 
 aoladder_contraction.o: aoladder_contraction.F
-	gfortran $(FCFLAGS) -c aoladder_contraction.F
+	gfortran $(FCFLAGS) $(CPPFLAGS) -c aoladder_contraction.F
 
 lookup_shell.o: lookup_shell.f
-	gfortran $(F77FLAGS) -c lookup_shell.f
+	gfortran $(F77FLAGS) $(CPPFLAGS) -c lookup_shell.f
+
+constants_data_types.o: constants_data_types.cpp
+	g++ $(CXXFLAGS) $(CPPFLAGS) -c constants_data_types.cpp
 
 clean:
-	-rm -f main.o sip_interface.o aoladder_contraction.o lookup_shell.o test_bed
+	-rm -f main_test.o sip_interface_test.o aoladder_contraction.o lookup_shell.o constants_data_types.o test_bed
