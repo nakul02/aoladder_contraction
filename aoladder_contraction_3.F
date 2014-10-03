@@ -47,40 +47,40 @@ c Interface added BUT should be include NOT added in the future
       integer(C_INT), intent(out)::ierr
 
 !     one dimensional array of atomic coordinates
-c      TYPE(C_PTR) :: sDimCoords
-c      TYPE(C_PTR) :: coords
-c      integer, pointer :: pdim_coords(:)
-c      real(C_DOUBLE), pointer :: pcoords(:,:)
+      TYPE(C_PTR) :: sDimCoords
+      TYPE(C_PTR) :: coords
+      integer, pointer :: pdim_coords(:)
+      real(C_DOUBLE), pointer :: pcoords(:,:)
 
 !     tw0 dimensional array mapping atomic coordinates to shells
-c      TYPE(C_PTR) :: sDimTCoords
-c      TYPE(C_PTR) :: Tcoords
-c      integer, pointer :: pdim_Tcoords(:)
-c      real(C_DOUBLE), pointer :: pTcoords(:,:)
+      TYPE(C_PTR) :: sDimTCoords
+      TYPE(C_PTR) :: Tcoords
+      integer, pointer :: pdim_Tcoords(:)
+      real(C_DOUBLE), pointer :: pTcoords(:,:)
 
 !     one dimensional arrays containg ccbeg and ccend
-c      TYPE(C_PTR) :: icc, ccbeg, ccend
-c      integer, pointer :: picc(:), pccbeg(:), pccend(:)
+      TYPE(C_PTR) :: icc, ccbeg, ccend
+      integer, pointer :: picc(:), pccbeg(:), pccend(:)
 
 !     one dimensional array containg alphas(exponents)
-c      TYPE(C_PTR) :: ntot_alpha, ixalphas
-c      integer, pointer :: pntot_alpha(:), pixalphas(:)
-c      TYPE(C_PTR) :: alphas
-c      real(C_DOUBLE) , pointer :: palphas(:)
+      TYPE(C_PTR) :: ntot_alpha, ixalphas
+      integer, pointer :: pntot_alpha(:), pixalphas(:)
+      TYPE(C_PTR) :: alphas
+      real(C_DOUBLE) , pointer :: palphas(:)
 
 !     one dimensional array containing coefficients
-c      TYPE(C_PTR) :: ntot_pcoeff, ixpcoeffs
-c      TYPE(C_PTR) :: pcoeffs
-c      integer, pointer :: pntot_pcoeff(:), pixpcoeffs(:)
-c      real(C_DOUBLE), pointer :: ppcoeffs(:)
+      TYPE(C_PTR) :: ntot_pcoeff, ixpcoeffs
+      TYPE(C_PTR) :: pcoeffs
+      integer, pointer :: pntot_pcoeff(:), pixpcoeffs(:)
+      real(C_DOUBLE), pointer :: ppcoeffs(:)
 
 c     integer(C_INT) iscr(5000000)
 c     real(C_DOUBLE) scr(5000000)
 
-c      real(C_DOUBLE), pointer :: scr(:)
-c      integer, pointer :: iscr(:)
-c      TYPE(C_PTR) :: cscr
-c      TYPE(C_PTR) :: ciscr
+      real(C_DOUBLE), pointer :: scr(:)
+      integer, pointer :: iscr(:)
+      TYPE(C_PTR) :: cscr
+      TYPE(C_PTR) :: ciscr
 !     offsets of atomic indeces
       integer(C_INT) offset_1, offset_2, offset_3, offset_4
       integer(C_INT) i, one, two
@@ -97,7 +97,7 @@ c  END_NFPS
       integer, pointer :: end_nfps(:)
 c ----------------------------------------------------------------------
 
-c      integer(C_INT) norb, nscr, niscr
+      integer(C_INT) norb, nscr, niscr
 c
       one = 0 ! 1
       two = 0 ! 2
@@ -107,80 +107,80 @@ c Get the predefined data
 
 c ----------------------------------------------------------------------
 c  CC_BEG
-c      call predefined_int_array("ccbeg"//C_NULL_CHAR, one, icc,
-c     *                                   ccbeg)
-c      call c_f_pointer(icc, picc,[1])
-c      call c_f_pointer(ccbeg,pccbeg,picc)
+      call predefined_int_array("ccbeg"//C_NULL_CHAR, one, icc,
+     *                                   ccbeg)
+      call c_f_pointer(icc, picc,[1])
+      call c_f_pointer(ccbeg,pccbeg,picc)
 c     write(6,*) ' CC_BEG', picc(1), (pccbeg(i), i=1,
 c    *                                           picc(1))
 c ----------------------------------------------------------------------
 
 c ----------------------------------------------------------------------
 c  CC_END
-c      call predefined_int_array("ccend"//C_NULL_CHAR, one, icc,
-c     *                                   ccend)
-c      call c_f_pointer(icc, picc,[1])
-c      call c_f_pointer(ccend,pccend,picc)
+      call predefined_int_array("ccend"//C_NULL_CHAR, one, icc,
+     *                                   ccend)
+      call c_f_pointer(icc, picc,[1])
+      call c_f_pointer(ccend,pccend,picc)
 c     write(6,*) ' CC_END', picc(1), (pccend(i), i=1,
 c    *                                           picc(1))
 c ----------------------------------------------------------------------
 
 c ----------------------------------------------------------------------
 c  IXALPHAS(exponents)
-c      call predefined_int_array("ixalphas"//C_NULL_CHAR, one,
-c     *                                   ntot_alpha, ixalphas)
-c      call c_f_pointer(ntot_alpha, pntot_alpha,[1])
-c      call c_f_pointer(ixalphas, pixalphas, pntot_alpha)
+      call predefined_int_array("ixalphas"//C_NULL_CHAR, one,
+     *                                   ntot_alpha, ixalphas)
+      call c_f_pointer(ntot_alpha, pntot_alpha,[1])
+      call c_f_pointer(ixalphas, pixalphas, pntot_alpha)
 c     write(6,*) ' IXALPHAS', pntot_alpha(1), (pixalphas(i), i=1,
 c    *                                         pntot_alpha(1))
 c ----------------------------------------------------------------------
 
 c ----------------------------------------------------------------------
 c  IXCOEFFICIENTS
-c      call predefined_int_array("ixpcoeffs"//C_NULL_CHAR,one,
-c     *                                   ntot_pcoeff, ixpcoeffs)
-c      call c_f_pointer(ntot_pcoeff, pntot_pcoeff,[1])
-c      call c_f_pointer(ixpcoeffs, pixpcoeffs, pntot_pcoeff)
+      call predefined_int_array("ixpcoeffs"//C_NULL_CHAR,one,
+     *                                   ntot_pcoeff, ixpcoeffs)
+      call c_f_pointer(ntot_pcoeff, pntot_pcoeff,[1])
+      call c_f_pointer(ixpcoeffs, pixpcoeffs, pntot_pcoeff)
 c     write(6,*) ' IXPCOEFFS', pntot_pcoeff(1), (pixpcoeffs(i), i=1,
 c    *                                         pntot_pcoeff(1))
 c ----------------------------------------------------------------------
 
 c ----------------------------------------------------------------------
 c  ALPHAS(exponents)
-c      call predefined_scalar_array("alphas"//C_NULL_CHAR,
-c     *                              one, ntot_alpha, alphas)
-c      call c_f_pointer(ntot_alpha, pntot_alpha,[1])
-c      call c_f_pointer(alphas, palphas, pntot_alpha)
+      call predefined_scalar_array("alphas"//C_NULL_CHAR,
+     *                              one, ntot_alpha, alphas)
+      call c_f_pointer(ntot_alpha, pntot_alpha,[1])
+      call c_f_pointer(alphas, palphas, pntot_alpha)
 c     write(6,*) ' ALPHAS', pntot_alpha(1) , (palphas(i), i=1,
 c    *                pntot_alpha(1))
 c ----------------------------------------------------------------------
 
 c ----------------------------------------------------------------------
 c  COEFFICIENTS
-c      call predefined_scalar_array("pcoeffs"//C_NULL_CHAR,
-c     *                               one, ntot_pcoeff,pcoeffs)
-c      call c_f_pointer(ntot_pcoeff, pntot_pcoeff,[1])
-c      call c_f_pointer(pcoeffs, ppcoeffs, pntot_pcoeff)
+      call predefined_scalar_array("pcoeffs"//C_NULL_CHAR,
+     *                               one, ntot_pcoeff,pcoeffs)
+      call c_f_pointer(ntot_pcoeff, pntot_pcoeff,[1])
+      call c_f_pointer(pcoeffs, ppcoeffs, pntot_pcoeff)
 c     write(6,*) ' PCOEFFS', pntot_pcoeff(1) , (ppcoeffs(i), i=1,
 c    *                pntot_pcoeff(1))
 c ----------------------------------------------------------------------
 
 c ----------------------------------------------------------------------
 c  ATOMIC COORDINATES
-c      call predefined_scalar_array("coords"//C_NULL_CHAR,
-c     *                                  two, sDimCoords,  coords)
-c      call c_f_pointer(sDimCoords, pdim_coords,[2])
-c      call c_f_pointer(coords, pcoords, pdim_coords)
+      call predefined_scalar_array("coords"//C_NULL_CHAR,
+     *                                  two, sDimCoords,  coords)
+      call c_f_pointer(sDimCoords, pdim_coords,[2])
+      call c_f_pointer(coords, pcoords, pdim_coords)
 c     write(6,*) ' COORDS',  (pcoords(1,i), i=1, pdim_coords(2),
 c    *                pntot_pcoeff(1))
 c ----------------------------------------------------------------------
 
 c ----------------------------------------------------------------------
 c  ATOMIC COORDINATES MAPPED TO SHELLS
-c      call predefined_scalar_array("tcoords"//C_NULL_CHAR,
-c     *                                  two, sDimTCoords, tcoords)
-c      call c_f_pointer(sDimTCoords, pdim_Tcoords,[2])
-c      call c_f_pointer(tcoords, ptcoords, pdim_tcoords)
+      call predefined_scalar_array("tcoords"//C_NULL_CHAR,
+     *                                  two, sDimTCoords, tcoords)
+      call c_f_pointer(sDimTCoords, pdim_Tcoords,[2])
+      call c_f_pointer(tcoords, ptcoords, pdim_tcoords)
 c ----------------------------------------------------------------------
 
 c ----------------------------------------------------------------------
@@ -195,10 +195,10 @@ c ----------------------------------------------------------------------
 
 c ----------------------------------------------------------------------
 c  END_NFPS
-c      call predefined_int_array("end_nfps"//C_NULL_CHAR, one,
-c     *                                   pnalpha, pend_nfps)
-c      call c_f_pointer(pnalpha, nalpha, [1])
-c      call c_f_pointer(pend_nfps, end_nfps, nalpha)
+      call predefined_int_array("end_nfps"//C_NULL_CHAR, one,
+     *                                   pnalpha, pend_nfps)
+      call c_f_pointer(pnalpha, nalpha, [1])
+      call c_f_pointer(pend_nfps, end_nfps, nalpha)
 c     write(6,*) ' END_NFPS', nalpha(1), (end_nfps(i), i=1,
 c    *                                           nalpha(1))
 c ----------------------------------------------------------------------
@@ -206,16 +206,16 @@ c ----------------------------------------------------------------------
 c ----------------------------------------------------------------------
 c
 c  Set scratch space
-c      nscr  = zmax ! 5000000
-c      niscr = imax ! 5000000
+      nscr  = zmax ! 5000000
+      niscr = imax ! 5000000
 c     nscr  = 5000000
 c     niscr = 5000000
 
-c      call scratch_array(nscr, cscr)
-c      call c_f_pointer(cscr, scr, [nscr])
+      call scratch_array(nscr, cscr)
+      call c_f_pointer(cscr, scr, [nscr])
 
-c      call scratch_array(niscr, ciscr)
-c      call c_f_pointer(ciscr, iscr, [niscr])
+      call scratch_array(niscr, ciscr)
+      call c_f_pointer(ciscr, iscr, [niscr])
 
 c Set offsets for the integral array. These also set the offsets for the
 c ao indices of the amplitude arrays.
@@ -239,17 +239,17 @@ c
      *                      extents_2(4), data_2, !new amplitudes data_2
 c
      *                      data_3, ! sreening_array
-     *                      extents_3(1), extents_3(2))
+     *                      extents_3(1), extents_3(2),
 c
-c     *                      pcoords, ptcoords,
-c     *                      ppcoeffs, pixpcoeffs, palphas, pixalphas,
-c     *                      pccbeg, pccend)
+     *                      pcoords, ptcoords,
+     *                      ppcoeffs, pixpcoeffs, palphas, pixalphas,
+     *                      pccbeg, pccend)
 c
 c ----------------------------------------------------------------------
 c
 c  Remove scratch space
-c      call delete_scratch_array(cscr)
-c      call delete_scratch_array(ciscr)
+      call delete_scratch_array(cscr)
+      call delete_scratch_array(ciscr)
 
 c     do i = 1, (extents_0(1)-1)*(extents_0(2)-1)*
 c    *          (extents_0(3)-1)*(extents_0(4)-1)
@@ -262,10 +262,10 @@ c     stop
       subroutine compute_aoladder(a1,a2,b1,b2,c1,c2,d1,d2,integrals,
      *                 i1, i2, j1, j2, t2old,
      *                 ii1, ii2, jj1, jj2, t2new,
-     *                 screen, is1, is2)
-c     *                 coords, tcoords ,coeffs,
-c     *                 ixpcoef,alphas,
-c     *                 ixalpha, ccbeg, ccend)
+     *                 screen, is1, is2,
+     *                 coords, tcoords ,coeffs,
+     *                 ixpcoef,alphas,
+     *                 ixalpha, ccbeg, ccend)
 c---------------------------------------------------------------------------
 c   The block of integrals (a1:a2,b1:b2,c1:c2,d1:d2) is computed for the
 c   following 'types' of integrals based on atomic labels.
@@ -286,7 +286,7 @@ c---------------------------------------------------------------------------
       integer i1, i2, j1, j2
       integer ii1, ii2, jj1, jj2
       integer aa1,aa2,bb1,bb2,cc1,cc2,dd1,dd2
-c      integer adim, bdim, cdim, ddim
+      integer adim, bdim, cdim, ddim
       integer m1, m2, n1, n2, r1, r2, s1, s2
       integer i, ii, j, jj, n, m, r, s
       integer is1, is2
@@ -302,13 +302,13 @@ c      integer adim, bdim, cdim, ddim
 
       integer imin, zmin, iblk, zblk, inc
 
-c      double precision x1,y1,z1
-c      double precision x2,y2,z2
-c      double precision x3,y3,z3
-c      double precision x4,y4,z4
+      double precision x1,y1,z1
+      double precision x2,y2,z2
+      double precision x3,y3,z3
+      double precision x4,y4,z4
 
-c      double precision coords(3,*), coeffs(*), alphas(*)
-c      double precision tcoords(3,*)
+      double precision coords(3,*), coeffs(*), alphas(*)
+      double precision tcoords(3,*)
       double precision integrals(a1:a2,b1:b2,c1:c2,d1:d2)
       double precision t2old(a1:a2,1:i2,c1:c2,1:j2)
       double precision t2new(b1:b2,1:ii2,d1:d2,1:jj2)
@@ -333,18 +333,18 @@ c Mapping data
 c     double precision scr(*)
 c     integer iscr(*)
 
-c      integer ccbeg(*), ccend(*)
-c      integer ixalpha(*), ixpcoef(*)
+      integer ccbeg(*), ccend(*)
+      integer ixalpha(*), ixpcoef(*)
 
-c      integer max_dim_coeff
-c      parameter (max_dim_coeff = 5000)
-c      integer ccbeg_pack(max_dim_coeff), ccend_pack(max_dim_coeff)
-c      integer*8 ccbeg_pack64(max_dim_coeff), ccend_pack64(max_dim_coeff)
-c      double precision alpha_pack(max_dim_coeff),
-c     *                 pcoeff_pack(max_dim_coeff)
-c      integer*8 arg64(25)
+      integer max_dim_coeff
+      parameter (max_dim_coeff = 5000)
+      integer ccbeg_pack(max_dim_coeff), ccend_pack(max_dim_coeff)
+      integer*8 ccbeg_pack64(max_dim_coeff), ccend_pack64(max_dim_coeff)
+      double precision alpha_pack(max_dim_coeff),
+     *                 pcoeff_pack(max_dim_coeff)
+      integer*8 arg64(25)
 
-c      double precision itol, bmax, dtemp, emax
+      double precision itol, bmax, dtemp, emax
 
 c     common /d2int_com/jatom, jx, jcenter
 c     integer jatom, jx, jcenter
@@ -364,39 +364,39 @@ c ----------------------------------------------------------------------
 
 c ----------------------------------------------------------------------
 c  NCFPS
-c      TYPE(C_PTR) :: pishells, pncfps
-c      integer, pointer :: ishells(:)
-c      integer, pointer :: ncfps(:)
+      TYPE(C_PTR) :: pishells, pncfps
+      integer, pointer :: ishells(:)
+      integer, pointer :: ncfps(:)
 c ----------------------------------------------------------------------
 
 c ----------------------------------------------------------------------
 c  NPFPS
-c      TYPE(C_PTR) :: pnpfps
-c      integer, pointer :: npfps(:)
+      TYPE(C_PTR) :: pnpfps
+      integer, pointer :: npfps(:)
 c ----------------------------------------------------------------------
 
 c ----------------------------------------------------------------------
 c  NPFPS
-c      TYPE(C_PTR) :: pindex_cc
-c      integer, pointer :: index_cc(:)
+      TYPE(C_PTR) :: pindex_cc
+      integer, pointer :: index_cc(:)
 c ----------------------------------------------------------------------
 
 c ----------------------------------------------------------------------
 c  INDX_CC
-c      TYPE(C_PTR) :: pindx_cc
-c      integer, pointer :: indx_cc(:)
+      TYPE(C_PTR) :: pindx_cc
+      integer, pointer :: indx_cc(:)
 c ----------------------------------------------------------------------
 
 c ----------------------------------------------------------------------
 c  IVANGMOM
-c      TYPE(C_PTR) :: pivangmom
-c      integer, pointer :: ivangmom(:)
+      TYPE(C_PTR) :: pivangmom
+      integer, pointer :: ivangmom(:)
 c ----------------------------------------------------------------------
 
-c      adim = a2-a1+1
-c      bdim = b2-b1+1
-c      cdim = c2-c1+1
-c      ddim = d2-d1+1
+      adim = a2-a1+1
+      bdim = b2-b1+1
+      cdim = c2-c1+1
+      ddim = d2-d1+1
 
 c Get the predefined data
 
@@ -414,40 +414,40 @@ c ----------------------------------------------------------------------
 
 c ----------------------------------------------------------------------
 c  NCFPS
-c      call predefined_int_array("ncfps"//C_NULL_CHAR, one,
-c     *                                   pishells, pncfps)
-c      call c_f_pointer(pishells, ishells, [1])
-c      call c_f_pointer(pncfps, ncfps, ishells)
+      call predefined_int_array("ncfps"//C_NULL_CHAR, one,
+     *                                   pishells, pncfps)
+      call c_f_pointer(pishells, ishells, [1])
+      call c_f_pointer(pncfps, ncfps, ishells)
 c     write(6,*) ' NCFPS', ishells(1), (ncfps(i), i=1,
 c    *                                           ishells(1))
 c ----------------------------------------------------------------------
 
 c ----------------------------------------------------------------------
 c  NPFPS
-c      call predefined_int_array("npfps"//C_NULL_CHAR, one,
-c     *                                   pishells, pnpfps)
-c      call c_f_pointer(pishells, ishells, [1])
-c      call c_f_pointer(pnpfps, npfps, ishells)
+      call predefined_int_array("npfps"//C_NULL_CHAR, one,
+     *                                   pishells, pnpfps)
+      call c_f_pointer(pishells, ishells, [1])
+      call c_f_pointer(pnpfps, npfps, ishells)
 c     write(6,*) ' NCFPS', ishells(1), (npfps(i), i=1,
 c    *                                           ishells(1))
 c ----------------------------------------------------------------------
 
 c ----------------------------------------------------------------------
 c  INDX_CC
-c      call predefined_int_array("indx_cc"//C_NULL_CHAR, one,
-c     *                                   pishells, pindx_cc)
-c      call c_f_pointer(pishells, ishells, [1])
-c      call c_f_pointer(pindx_cc, indx_cc, ishells)
+      call predefined_int_array("indx_cc"//C_NULL_CHAR, one,
+     *                                   pishells, pindx_cc)
+      call c_f_pointer(pishells, ishells, [1])
+      call c_f_pointer(pindx_cc, indx_cc, ishells)
 c     write(6,*) ' INDX_CC', ishells(1), (indx_cc(i), i=1,
 c    *                                           ishells(1))
 c ----------------------------------------------------------------------
 
 c ----------------------------------------------------------------------
 c  IVANGMOMO
-c      call predefined_int_array("ivangmom"//C_NULL_CHAR, one, pishells,
-c     *                                   pivangmom)
-c      call c_f_pointer(pishells, ishells, [1])
-c      call c_f_pointer(pivangmom, ivangmom, ishells)
+      call predefined_int_array("ivangmom"//C_NULL_CHAR, one, pishells,
+     *                                   pivangmom)
+      call c_f_pointer(pishells, ishells, [1])
+      call c_f_pointer(pivangmom, ivangmom, ishells)
 c     write(6,*) ' IVANGMOMOM', ishells(1), (ivangmom(i), i=1,
 c    *                                           ishells(1))
 c ----------------------------------------------------------------------
