@@ -2,13 +2,13 @@
 
 extern "C" {
     void aoladder_contraction(
-            int& array_slot_0, int& rank_0, int * index_values_0, int& size_0, 
+            int& array_slot_0, int& rank_0, int * index_values_0, int& size_0,
             int * extents_0, double * data_0,
-            int& array_slot_1, int& rank_1, int * index_values_1, int& size_1, 
-            int * extents_1, double * data_1, 
-            int& array_slot_2, int& rank_2, int * index_values_2, int& size_2, 
-            int * extents_2, double * data_2, 
-            int& array_slot_3, int& rank_3, int * index_values_3, int& size_3, 
+            int& array_slot_1, int& rank_1, int * index_values_1, int& size_1,
+            int * extents_1, double * data_1,
+            int& array_slot_2, int& rank_2, int * index_values_2, int& size_2,
+            int * extents_2, double * data_2,
+            int& array_slot_3, int& rank_3, int * index_values_3, int& size_3,
             int * extents_3, double * data_3, int& ierr);
 }
 
@@ -33,7 +33,7 @@ int main (int argc, char **argv){
     const int c1 = 5;
     const int c2 = 14;
     const int c3 = 5;
-    
+
     const int d0 = 5;
     const int d1 = 5;
 
@@ -2793,7 +2793,7 @@ int main (int argc, char **argv){
     int rank_1 = 4;
     int size_1 = b0 * b1 * b2 * b3;
     int extents_1[] = {b0, b1, b2, b3};
-    double data_1[b0][b1][b2][b3] = {    
+    double data_1[b0][b1][b2][b3] = {
         -0.00046129339285705053689,-0.0022117331743690539329,0.0023781864250119384187,-1.4451997900098020019e-19,6.1900035928622149781e-19,2.3773146619864177529e-19,2.0199886793147238992e-19,-7.7758964983465234137e-19,-2.7623153106063061414e-19,1.9384252806089610149e-20,-1.2596970856892099706e-21,-4.4549945290369645581e-20,-2.6522413058519713921e-21,2.5587167317532479618e-22,
         0.00021399710806030306041,0.0010260378978865693916,-0.0011032566805883898403,-1.2850252029454142524e-19,-2.7029695289531887964e-19,-4.1673146572622596157e-19,1.5292488045961670704e-19,3.3946246761559936669e-19,5.146521283972892065e-19,-9.3035357222409532064e-21,4.9520275813929685917e-23,2.0625345565901120583e-20,4.1032383165083903571e-22,-1.5134928476255989781e-22,
         6.9292999150904937934e-20,5.0141051401758735958e-19,-5.4323713279874169947e-19,0.00015148188505026901631,-0.00029614364106017170312,-0.00017366314100329362973,-0.00019105709280413613136,0.0003735122724054550699,0.00021903328464861239466,-6.578833543788990937e-20,5.5781265950378226081e-21,8.7090553359015209643e-21,2.9196524487037804599e-20,-1.5627206717263737286e-20,
@@ -3517,13 +3517,13 @@ int main (int argc, char **argv){
     0,0,0,0,0
     };
 
-    aoladder_contraction(dummy_slot, rank_0, &dummy_index_values[0], 
+    aoladder_contraction(dummy_slot, rank_0, &dummy_index_values[0],
             size_0, &extents_0[0], &data_0[0][0][0][0],
-            dummy_slot, rank_1, &dummy_index_values[0], 
+            dummy_slot, rank_1, &dummy_index_values[0],
             size_1, &extents_1[0], &data_1[0][0][0][0],
-            dummy_slot, rank_2, &dummy_index_values[0], 
+            dummy_slot, rank_2, &dummy_index_values[0],
             size_2, &extents_2[0], &data_2[0][0][0][0],
-            dummy_slot, rank_3, &dummy_index_values[0], 
+            dummy_slot, rank_3, &dummy_index_values[0],
             size_3, &extents_3[0], &data_3[0][0],
             ierr);
 
@@ -3536,7 +3536,10 @@ int main (int argc, char **argv){
                     double absdiff = diff < 0 ? diff * -1 : diff;
                     if (absdiff > THRESHOLD)
                         std::cerr << "Error !, diff at location :["
-                            <<i<<","<<j<<","<<k<<","<<l<<"]"<<std::endl;
+                            <<i<<","<<j<<","<<k<<","<<l<<"]"
+                            << " ref:" << data_2_ref[i][j][k][l]
+                            << " calc:" << data_2[i][j][k][l]
+                            <<std::endl;
                 }
             }
         }

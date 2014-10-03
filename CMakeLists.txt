@@ -7,7 +7,7 @@ enable_language(Fortran)
 add_executable(
     aoladder_contraction_test;
     main.cpp;
-    aoladder_contraction.F;
+    aoladder_contraction_3.F;
     lookup_shell.f;
     sip_interface.fh;
     sip_interface.cpp;
