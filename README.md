@@ -11,10 +11,12 @@ To Compile & Run
 Please download the Google Tests v1.7 (http://googletest.googlecode.com/files/gtest-1.7.0.zip)
 
 Unzip it into the root directory of this project.
-Cd into the resulting gtest-1.7.0 folder.
-Configure it as: ```./configure --without-pthread```
-And ```make``` it.
 
-Then ```make``` the aoladder_contraction project.
+Use CMake:
+* In the aoladder_contraction directory, make a build directory, call it BUILD (or anything else) and cd into it
+  mkdir BUILD && cd BUILD
+* cmake ../
+* make
+
 
 
