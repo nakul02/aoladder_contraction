@@ -19,4 +19,9 @@ Use CMake:
 * make
 
 
+Known Issues
+------------
+This will run with a C++ compiler that supports std::default_random_engine
+The intel compiler on HiPerGator is compatible with gcc 4.4.6 which doesn't support said random engine.
+On HiperGator, use gcc/4.7.2
 
