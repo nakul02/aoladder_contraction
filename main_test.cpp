@@ -5,7 +5,9 @@
 #include <chrono>
 #include "gtest/gtest.h"
 #include "constants_data_types.h"
+//
 
+//2
 // define this to include CUDA implementation
 #define CUDA
 
