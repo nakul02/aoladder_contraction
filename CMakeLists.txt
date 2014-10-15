@@ -4,6 +4,22 @@ project (aoladder_contraction)
 
 enable_language(Fortran)
 
+find_package(CUDA REQUIRED)
+
+set (CUDA_NVCC_FLAGS ${CUDA_NVCC_FLAGS})
+
+
+set(CUDA_HOST_COMPILATION_CPP ON)
+    
+# Support Double precision
+set(CUDA_NVCC_FLAGS ${CUDA_NVCC_FLAGS} -arch=sm_13) 
+CUDA_ADD_LIBRARY(cudasuperinstructions 
+	aoladder_contraction_cu.cu;
+	gpu_super_instructions.cu;
+	gpu_super_instructions.h;
+	cuda_check.h;
+	)
+CUDA_ADD_CUBLAS_TO_TARGET(cudasuperinstructions)
 
 # Setup for gtests.
 add_subdirectory(gtest-1.7.0)
@@ -11,7 +27,8 @@ enable_testing()
 set(INCLUDE_DIRS ${INCLUDE_DIRS} ${gtest_SOURCE_DIR}/include ${gtest_SOURCE_DIR})
 
 # C++11 features are used.
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++0x")
 
 
 include_directories(${INCLUDE_DIRS})
@@ -42,7 +59,10 @@ add_executable(gtest_aoladder_contraction;
     )
 
 # Link to gtest libraries
-target_link_libraries(gtest_aoladder_contraction gtest gtest_main)
+target_link_libraries(gtest_aoladder_contraction 
+	gtest;
+	gtest_main; 
+	cudasuperinstructions)
 
 
 
