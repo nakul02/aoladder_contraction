@@ -12,7 +12,7 @@ set (CUDA_NVCC_FLAGS ${CUDA_NVCC_FLAGS})
 set(CUDA_HOST_COMPILATION_CPP ON)
     
 # Support Double precision
-set(CUDA_NVCC_FLAGS ${CUDA_NVCC_FLAGS} -arch=sm_13) 
+set(CUDA_NVCC_FLAGS ${CUDA_NVCC_FLAGS} -arch=sm_20) 
 CUDA_ADD_LIBRARY(cudasuperinstructions 
 	aoladder_contraction_cu.cu;
 	gpu_super_instructions.cu;
@@ -22,6 +22,7 @@ CUDA_ADD_LIBRARY(cudasuperinstructions
 CUDA_ADD_CUBLAS_TO_TARGET(cudasuperinstructions)
 
 # Setup for gtests.
+set(gtest_disable_pthreads OFF CACHE BOOL "Disable threading for gtest")
 add_subdirectory(gtest-1.7.0)
 enable_testing()
 set(INCLUDE_DIRS ${INCLUDE_DIRS} ${gtest_SOURCE_DIR}/include ${gtest_SOURCE_DIR})

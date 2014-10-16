@@ -13,7 +13,7 @@ extern "C" {
 
 int main (int argc, char **argv){
 
-    const double THRESHOLD = 1e-8;
+    const double THRESHOLD = 1e-10;
 
     int ierr;
 

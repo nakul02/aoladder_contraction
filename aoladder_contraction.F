@@ -522,22 +522,22 @@ c---------------------------------------------------------------------------
 c   Determine the maximum integral in the shell quad  
 c---------------------------------------------------------------------------
 
-      max_int = 0.0 
-      do d = d1, d2 
-      do c = c1, c2 
-      do b = b1, b2 
-      do a = a1, a2 
-         if ((a .ge. aa1 .and. a .le. aa2) .and.
-     *       (b .ge. bb1 .and. b .le. bb2) .and.
-     *       (c .ge. cc1 .and. c .le. cc2) .and.
-     *       (d .ge. dd1 .and. d .le. dd2)) then  
-             if (dabs(integrals(a,b,c,d)) .gt. max_int) 
-     *                 max_int = dabs(integrals(a,b,c,d))  
-         endif 
-      enddo 
-      enddo 
-      enddo 
-      enddo 
+      max_int = 10.0 
+c      do d = d1, d2 
+c      do c = c1, c2 
+c      do b = b1, b2 
+c      do a = a1, a2 
+c         if ((a .ge. aa1 .and. a .le. aa2) .and.
+c     *       (b .ge. bb1 .and. b .le. bb2) .and.
+c     *       (c .ge. cc1 .and. c .le. cc2) .and.
+c     *       (d .ge. dd1 .and. d .le. dd2)) then  
+c             if (dabs(integrals(a,b,c,d)) .gt. max_int) 
+c     *                 max_int = dabs(integrals(a,b,c,d))  
+c         endif 
+c      enddo 
+c      enddo 
+c      enddo 
+c      enddo 
 
 c     write(6,*) ' MAX_INT = ', max_int
 
