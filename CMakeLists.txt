@@ -36,6 +36,9 @@ include_directories(${INCLUDE_DIRS})
 
 set(COMMON_FILES
     aoladder_contraction.F;
+#    test_aol.F;
+    aoladder_contraction_new.F;
+    lookup_shell.f;
     lookup_shell.f;
     sip_interface.fh;
     sip_interface.cpp;
