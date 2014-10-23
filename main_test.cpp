@@ -117,7 +117,7 @@ TEST(AOLADDER,test1){
 
 	unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
 	std::default_random_engine generator (seed);
-	std::uniform_real_distribution<double> distribution (-10.0,10.0);
+	std::uniform_real_distribution<double> distribution (-20.0,20.0);
 
 	for (int a=0; a<6; a++){
 		for (int b=0; b<6; b++){
