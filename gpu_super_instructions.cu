@@ -480,9 +480,7 @@ void __gpu_contract_helper(double* p_y, int ny, int* yDims, int* yInds,
 	CUDA_CHECK(cudaMemcpyToSymbol(dimsDev, x1Dims, sizeof(int) * n1));
 	CUDA_CHECK(cudaMemcpyToSymbol(stepsDev, steps, sizeof(int) * n1));
 
-	CUDA_CHECK(
-			cudaMemcpy(scratch3, x1, size * sizeof(double),
-					cudaMemcpyDeviceToDevice));
+	CUDA_CHECK(cudaMemcpy(scratch3, x1, size * sizeof(double),cudaMemcpyDeviceToDevice));
 	CUDA_CHECK(cudaDeviceSynchronize());
 reorderScatter<<<REORDER_BLOCKS, REORDER_THREADS>>>(scratch1, scratch3, n1, size);
 

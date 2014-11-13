@@ -56,26 +56,31 @@ TEST(AOLADDER,test1){
 
 	int ierr;
 
-	const int a0 = 36;
-	const int a1 = 36;
-	const int a2 = 36;
-	const int a3 = 36;
+	const int a0 = 36;//*2;
+	const int a1 = 36;//*2;
+	const int a2 = 36;//*2;
+	const int a3 = 36;//*2;
 
-	const int b0 = 36;
-	const int b1 = 36;
-	const int b2 = 36;
-	const int b3 = 36;
+	const int b0 = 36;//*2;
+	const int b1 = 36;//*2;
+	const int b2 = 36;//*2;
+	const int b3 = 36;//*2;
 
-	const int c0 = 36;
-	const int c1 = 36;
-	const int c2 = 36;
-	const int c3 = 36;
+	const int c0 = 36;//*2;
+	const int c1 = 36;//*2;
+	const int c2 = 36;//*2;
+	const int c3 = 36;//*2;
 
 	// A way to get huge arrays to be in global data
 	static double data_0[a3][a2][a1][a0];
 	static double data_1[b3][b2][b1][b0];
 	static double data_2_ref[c3][c2][c1][c0];
 	static double data_2[c3][c2][c1][c0];
+
+//	static double data2_0[a3][a2][a1][a0];
+//	static double data2_1[b3][b2][b1][b0];
+//	static double data2_2_ref[c3][c2][c1][c0];
+//	static double data2_2[c3][c2][c1][c0];
 
 	int dummy_slot = -1;
 	int dummy_index_values[4] = {-1, -1, -1, -1};
@@ -135,6 +140,11 @@ TEST(AOLADDER,test1){
 									data_1[l][k][j][i] = distribution(generator);
 									data_2_ref[l][k][j][i] = 0.0;
 									data_2[l][k][j][i] = 0.0;
+									
+  //                                                                      data2_0[l][k][j][i] = data_0[l][k][j][i];
+//									data2_1[l][k][j][i] = data_1[l][k][j][i];
+//									data2_2_ref[l][k][j][i] = 0.0;
+//									data2_2[l][k][j][i] = 0.0;
 								}
 							}
 						}
@@ -157,7 +167,7 @@ TEST(AOLADDER,test1){
 			ierr);
 	duration = ( std::clock() - start ) / (double) CLOCKS_PER_SEC;
 
-	std::cout<<"printf: "<< duration <<'\n';
+	std::cout<<"printf: Fortran"<< duration <<'\n';
 	//            
 	//    aoladder_contraction_cpp(dummy_slot, rank_0, &dummy_index_values[0], 
 	//        size_0, &extents_0[0], &data_0[0][0][0][0],
@@ -176,7 +186,7 @@ TEST(AOLADDER,test1){
 			ierr);
 	duration = ( std::clock() - start ) / (double) CLOCKS_PER_SEC;
 
-	std::cout<<"printf: "<< duration <<'\n';
+	std::cout<<"printf: GPU"<< duration <<'\n';
 	for (int i=0; i<c0; i++){
 		for (int j=0; j<c1; j++){
 			for (int k=0; k<c2; k++){

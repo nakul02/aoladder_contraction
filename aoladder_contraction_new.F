@@ -205,6 +205,30 @@ c
      *                      extents_1(4), data_1, !old amplitudes data_1  
      *                      extents_2(1), extents_2(2), extents_2(3), 
      *                      extents_2(4), data_2, !new amplitudes data_2  
+     *                      pcoords, ptcoords, 
+     *                      ppcoeffs, pixpcoeffs, palphas, pixalphas,
+     *                      pccbeg, pccend)
+      call compute_aoladder_new(1+offset_1, extents_0(1)+offset_1,
+     *                      1+offset_2, extents_0(2)+offset_2,
+     *                      1+offset_3, extents_0(3)+offset_3,
+     *                      1+offset_4, extents_0(4)+offset_4,
+     *                      data_0, !     integrals data_0  
+     *                      extents_1(1), extents_1(2), extents_1(3), 
+     *                      extents_1(4), data_1, !old amplitudes data_1  
+     *                      extents_2(1), extents_2(2), extents_2(3), 
+     *                      extents_2(4), data_2, !new amplitudes data_2  
+     *                      pcoords, ptcoords, 
+     *                      ppcoeffs, pixpcoeffs, palphas, pixalphas,
+     *                      pccbeg, pccend)
+      call compute_aoladder_new(1+offset_1, extents_0(1)+offset_1,
+     *                      1+offset_2, extents_0(2)+offset_2,
+     *                      1+offset_3, extents_0(3)+offset_3,
+     *                      1+offset_4, extents_0(4)+offset_4,
+     *                      data_0, !     integrals data_0  
+     *                      extents_1(1), extents_1(2), extents_1(3), 
+     *                      extents_1(4), data_1, !old amplitudes data_1  
+     *                      extents_2(1), extents_2(2), extents_2(3), 
+     *                      extents_2(4), data_2, !new amplitudes data_2  
 c
 c     *                      data_3, ! sreening_array 
 c     *                      extents_3(1), extents_3(2), 

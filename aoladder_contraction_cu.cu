@@ -189,6 +189,16 @@ void aoladder_contraction_cu_nosparse(
 	_gpu_contract(p_y, rank_2, extents_2, &label_py[0],
 		p_x1, rank_0, extents_0, &label_x1[0], p_x2, rank_1,
 		extents_1, &label_x2[0]);
+       
+ //temporary 
+	_gpu_contract(p_y, rank_2, extents_2, &label_py[0],
+		p_x1, rank_0, extents_0, &label_x1[0], p_x2, rank_1,
+		extents_1, &label_x2[0]);
+
+ //temporary 
+	_gpu_contract(p_y, rank_2, extents_2, &label_py[0],
+		p_x1, rank_0, extents_0, &label_x1[0], p_x2, rank_1,
+		extents_1, &label_x2[0]);
 
 	//Get results from GPU to CPU
 	_gpu_device_to_host(data_2, p_y, size_2);
