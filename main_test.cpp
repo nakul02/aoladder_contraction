@@ -45,7 +45,7 @@ extern "C" {
 			int& array_slot_2, int& rank_2, int * index_values_2, int& size_2,
 			int * extents_2, double * data_2,
 			int& array_slot_3, int& rank_3, int * index_values_3, int& size_3,
-			int * extents_3, double * data_3, int& ierr);
+			int * extents_3, double * data_3, int& ierr, int blockNum);
 
 }
 
@@ -70,12 +70,14 @@ TEST(AOLADDER,test1){
 	const int c1 = 36;//*2;
 	const int c2 = 36;//*2;
 	const int c3 = 36;//*2;
+       
+        const int blockNum=6;
 
 	// A way to get huge arrays to be in global data
-	static double data_0[a3][a2][a1][a0];
-	static double data_1[b3][b2][b1][b0];
-	static double data_2_ref[c3][c2][c1][c0];
-	static double data_2[c3][c2][c1][c0];
+	static double data_0[blockNum][a3][a2][a1][a0];
+	static double data_1[blockNum][b3][b2][b1][b0];
+	static double data_2_ref[blockNum][c3][c2][c1][c0];
+	static double data_2[blockNum][c3][c2][c1][c0];
 
 //	static double data2_0[a3][a2][a1][a0];
 //	static double data2_1[b3][b2][b1][b0];
@@ -125,6 +127,7 @@ TEST(AOLADDER,test1){
 	std::default_random_engine generator (seed);
 	std::uniform_real_distribution<double> distribution (-20.0,20.0);
 
+      for(int bi=0;bi<blockNum;bi++){
 	for (int a=0; a<6; a++){
 		for (int b=0; b<6; b++){
 			for (int c=0; c<6; c++){
@@ -136,10 +139,10 @@ TEST(AOLADDER,test1){
 						for (int j=sb_range[b]; j<sb_range[b+1] && j<ao_seg_ranges[0]; j++){
 							for (int k=sb_range[c]; k<sb_range[c+1] && k<ao_seg_ranges[0]; k++){
 								for(int l=sb_range[d]; l<sb_range[d+1] && l<ao_seg_ranges[0]; l++){
-									data_0[l][k][j][i] = distribution(generator);
-									data_1[l][k][j][i] = distribution(generator);
-									data_2_ref[l][k][j][i] = 0.0;
-									data_2[l][k][j][i] = 0.0;
+									data_0[bi][l][k][j][i] = distribution(generator);
+									data_1[bi][l][k][j][i] = distribution(generator);
+									data_2_ref[bi][l][k][j][i] = 0.0;
+									data_2[bi][l][k][j][i] = 0.0;
 									
   //                                                                      data2_0[l][k][j][i] = data_0[l][k][j][i];
 //									data2_1[l][k][j][i] = data_1[l][k][j][i];
@@ -153,18 +156,20 @@ TEST(AOLADDER,test1){
 			}
 		}
 	}
-
+}
 	std::clock_t start;
 	double duration;   
 	start = std::clock();
+       for(int bi=0;bi<blockNum;bi++){
 	aoladder_contraction_new(dummy_slot, rank_0, &dummy_index_values[0], 
 //	aoladder_contraction(dummy_slot, rank_0, &dummy_index_values[0], 
-			size_0, &extents_0[0], &data_0[0][0][0][0],
+			size_0, &extents_0[0], &data_0[bi][0][0][0][0],
 			dummy_slot, rank_1, &dummy_index_values[0], 
-			size_1, &extents_1[0], &data_1[0][0][0][0],
+			size_1, &extents_1[0], &data_1[bi][0][0][0][0],
 			dummy_slot, rank_2, &dummy_index_values[0], 
-			size_2, &extents_2[0], &data_2_ref[0][0][0][0],
+			size_2, &extents_2[0], &data_2_ref[bi][0][0][0][0],
 			ierr);
+}
 	duration = ( std::clock() - start ) / (double) CLOCKS_PER_SEC;
 
 	std::cout<<"printf: Fortran"<< duration <<'\n';
@@ -178,28 +183,34 @@ TEST(AOLADDER,test1){
 	//        ierr);        
 	start = std::clock();
 	aoladder_contraction_cu_nosparse(dummy_slot, rank_0, &dummy_index_values[0],
-			size_0, &extents_0[0], &data_0[0][0][0][0],
+			size_0, &extents_0[0], &data_0[0][0][0][0][0],
 			dummy_slot, rank_1, &dummy_index_values[0],
-			size_1, &extents_1[0], &data_1[0][0][0][0],
+			size_1, &extents_1[0], &data_1[0][0][0][0][0],
 			dummy_slot, rank_2, &dummy_index_values[0],
-			size_2, &extents_2[0], &data_2[0][0][0][0],
-			ierr);
+			size_2, &extents_2[0], &data_2[0][0][0][0][0],
+			ierr,blockNum);
 	duration = ( std::clock() - start ) / (double) CLOCKS_PER_SEC;
 
 	std::cout<<"printf: GPU"<< duration <<'\n';
+double errSum=0;
+      for(int bi=0;bi<blockNum;bi++){
 	for (int i=0; i<c0; i++){
 		for (int j=0; j<c1; j++){
 			for (int k=0; k<c2; k++){
 				for (int l=0; l<c3; l++){
-					ASSERT_NEAR(data_2_ref[i][j][k][l], data_2[i][j][k][l], THRESHOLD);
+  errSum+=std::abs(data_2_ref[bi][i][j][k][l]-data_2[bi][i][j][k][l]);
+					ASSERT_NEAR(data_2_ref[bi][i][j][k][l], data_2[bi][i][j][k][l], THRESHOLD);
 				}
 			}
 		}
 	}
 }
 
+std::cout<<"errSum: "<<std::scientific<<errSum/(double)blockNum<<'\n';
+}
 
-TEST(AOLADDER,test2){
+/*
+TEST(AOLADDER,DISABLED_test2){
 
 	int ierr;
 
@@ -319,7 +330,7 @@ TEST(AOLADDER,test2){
 			size_1, &extents_1[0], &data_1[0][0][0][0],
 			dummy_slot, rank_2, &dummy_index_values[0],
 			size_2, &extents_2[0], &data_2[0][0][0][0],
-			ierr);
+			ierr, blockNum);
 
 	duration = ( std::clock() - start ) / (double) CLOCKS_PER_SEC;
 
@@ -472,7 +483,7 @@ TEST(AOLADDER,DISABLED_test4){
 	}
 }
 
-TEST(AOLADDER,test3){
+TEST(AOLADDER,DISABLED_test3){
 
 	int ierr;
 
@@ -621,7 +632,7 @@ TEST(AOLADDER,test3){
 		}
 		std::cout<<std::endl;
 	}
-	*/
+	//
 	for (int i=0; i<c0; i++){
 		for (int j=0; j<c1; j++){
 			for (int k=0; k<c2; k++){
@@ -633,7 +644,7 @@ TEST(AOLADDER,test3){
 	}
 
 }
-
+*/
 
 int main(int argc, char **argv) {
 
