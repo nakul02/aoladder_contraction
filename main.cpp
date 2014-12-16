@@ -13,7 +13,7 @@ extern "C" {
 
 int main (int argc, char **argv){
 
-    const double THRESHOLD = 1e-10;
+    const double THRESHOLD = 1e-8;
 
     int ierr;
 
@@ -431,7 +431,7 @@ int main (int argc, char **argv){
         }
     }
 
-
+    std::cout <<"Test success!"<<std::endl;
     return 0;
 }
 
