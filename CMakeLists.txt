@@ -35,6 +35,8 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++0x")
 include_directories(${INCLUDE_DIRS})
 
 set(COMMON_FILES
+    io_utils.cpp;
+    io_utils.h;
     aoladder_contraction.F;
 #    test_aol.F;
     aoladder_contraction_new.F;
