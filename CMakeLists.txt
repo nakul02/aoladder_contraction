@@ -70,6 +70,10 @@ target_link_libraries(gtest_aoladder_contraction
 	gtest_main; 
 	cudasuperinstructions)
 
+target_link_libraries(aoladder_contraction_test 
+	gtest;
+	gtest_main; 
+	cudasuperinstructions)
 
 
 

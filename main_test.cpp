@@ -5,6 +5,10 @@
 #include <chrono>
 #include "gtest/gtest.h"
 #include "constants_data_types.h"
+//#include <iostream>
+//#include <fstream>
+//#include <cassert>
+//#include "io_utils.h"
 //
 
 //2
@@ -49,6 +53,21 @@ extern "C" {
 
 }
 
+/*void read_from_file(std::string filename, int &rank, int*& extents_read, double*& data, int& data_size){
+
+    setup::BinaryInputFile data_stream(filename);
+    rank = data_stream.read_int(); // Read rank
+
+    // Read extents
+    int extents_size;
+    extents_read = data_stream.read_int_array(&extents_size);
+    assert (extents_size == rank);
+
+    // Read data    
+    data = data_stream.read_double_array(&data_size);
+    
+}
+*/
 const double THRESHOLD = 1e-10;
 
 
@@ -71,7 +90,7 @@ TEST(AOLADDER,test1){
 	const int c2 = 36;//*2;
 	const int c3 = 36;//*2;
        
-        const int blockNum=6;
+        const int blockNum=2;
 
 	// A way to get huge arrays to be in global data
 	static double data_0[blockNum][a3][a2][a1][a0];
@@ -181,6 +200,7 @@ TEST(AOLADDER,test1){
 	//        dummy_slot, rank_2, &dummy_index_values[0], 
 	//        size_2, &extents_2[0], &data_2[0][0][0][0],
 	//        ierr);        
+
 	start = std::clock();
 	aoladder_contraction_cu_nosparse(dummy_slot, rank_0, &dummy_index_values[0],
 			size_0, &extents_0[0], &data_0[0][0][0][0][0],
