@@ -111,6 +111,9 @@ int main (int argc, char **argv){
     data_2 = new double[size_2]();
 
 /*
+=======
+    
+>>>>>>> 89748540e95a43546762a8d2406e59e41d828a50
     aoladder_contraction(dummy_slot, rank_0, &dummy_index_values[0], 
             size_0, extents_0, data_0,
             dummy_slot, rank_1, &dummy_index_values[0], 
@@ -118,6 +121,7 @@ int main (int argc, char **argv){
             dummy_slot, rank_2, &dummy_index_values[0], 
             size_2, extents_2, data_2,
             ierr);
+<<<<<<< HEAD
 */
 
 start = std::clock();
@@ -132,6 +136,7 @@ start = std::clock();
 
 	std::cout<<"printf: GPU"<< duration <<'\n';
 
+
     for (int i=0; i<size_2; ++i){
         double diff = data_2_ref[i] - data_2[i];
         double absdiff = diff < 0 ? diff * -1 : diff;
@@ -139,6 +144,7 @@ start = std::clock();
             std::cerr << "Error !, diff at location :["<< i <<"]"<<std::endl;
     }
     std::cout<<"End"<<std::endl;
+
     return 0;
 }
 
