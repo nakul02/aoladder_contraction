@@ -162,13 +162,13 @@ void aoladder_contraction_cu_nosparse(
 	int& array_slot_0, int& rank_0, int *index_values_0, int& size_0, int *extents_0, double *data_0,
 	int& array_slot_1, int& rank_1, int *index_values_1, int& size_1, int *extents_1, double *data_1,
 	int& array_slot_2, int& rank_2, int *index_values_2, int& size_2, int *extents_2, double *data_2,
-	int& ierr) {
+	int& ierr, int blockNum) {
 
 	int devid;
 	int rank = 0;
-	double* p_y;
-	double* p_x1;
-	double* p_x2;
+	double* p_y[blockNum];
+	double* p_x1[blockNum];
+	double* p_x2[blockNum];
 	int label_py[]={2,5,4,6};
 	int label_x1[]={1,2,3,4};
 	int label_x2[]={1,5,3,6};
@@ -177,28 +177,42 @@ void aoladder_contraction_cu_nosparse(
 	_init_gpu(&devid, &rank);
 
 	//Allocate memory on GPU
-	p_y = _gpu_allocate (size_2);
-	p_x1 = _gpu_allocate (size_0);
-	p_x2 = _gpu_allocate (size_1);
+      for(int bi=0;bi<blockNum;bi++){
+	p_y[bi] = _gpu_allocate (size_2);
+	p_x1[bi] = _gpu_allocate (size_0);
+	p_x2[bi] = _gpu_allocate (size_1);
 
 	//Transfer blocks to the GPU	
-	_gpu_host_to_device(data_0, p_x1, size_0);
-	_gpu_host_to_device(data_1, p_x2, size_1);
-	
+	_gpu_host_to_device(&data_0[bi*size_0], p_x1[bi], size_0);
+	_gpu_host_to_device(&data_1[bi*size_1], p_x2[bi], size_1);
+	}
 	//Perform the contraction operation on GPU
-	_gpu_contract(p_y, rank_2, extents_2, &label_py[0],
-		p_x1, rank_0, extents_0, &label_x1[0], p_x2, rank_1,
-		extents_1, &label_x2[0]);
 
+      for(int bi=0;bi<blockNum;bi++){
+	_gpu_contract(p_y[bi], rank_2, extents_2, &label_py[0],
+		p_x1[bi], rank_0, extents_0, &label_x1[0], p_x2[bi], rank_1,
+		extents_1, &label_x2[0]);
+}       
+ //temporary 
+//	_gpu_contract(p_y, rank_2, extents_2, &label_py[0],
+//		p_x1, rank_0, extents_0, &label_x1[0], p_x2, rank_1,
+//		extents_1, &label_x2[0]);
+
+ //temporary 
+//	_gpu_contract(p_y, rank_2, extents_2, &label_py[0],
+//		p_x1, rank_0, extents_0, &label_x1[0], p_x2, rank_1,
+//		extents_1, &label_x2[0]);
+
+      for(int bi=0;bi<blockNum;bi++){
 	//Get results from GPU to CPU
-	_gpu_device_to_host(data_2, p_y, size_2);
+	_gpu_device_to_host(&data_2[bi*size_2], p_y[bi], size_2);
 	
 	//De-allocate memory on GPU
-	_gpu_free(p_y);
-	_gpu_free(p_x1);
-	_gpu_free(p_x2);
+	_gpu_free(p_y[bi]);
+	_gpu_free(p_x1[bi]);
+	_gpu_free(p_x2[bi]);
 }
-
+}
 void compute_aoladder_with_sparsity_gpu(
 		int a1, int a2, int b1, int b2,
 		double* integrals, int i1, int j1, int size_0, int rank_0, int* extents_0,
